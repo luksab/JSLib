@@ -37,6 +37,25 @@ class polynomial {
             Rest[j] = Zähler[j]
         return [Quotient, Rest];
     }
+    normalPolinomialDivision = this.PolDivNormal;
+
+    integrate = function (pol) {
+        if (pol == null)
+            pol = this.polynomial;
+        else if (pol.polynomial == null) {
+            pol = pol.polynomial;
+        }
+        var ret = new Array();
+        if(pol instanceof jsLib.fraq){
+            for (let i = 0; i < pol.length; i++) {
+                ret[i+1] = pol[i].m(1/(i+1));
+            }
+        }
+        for (let i = 0; i < pol.length; i++) {
+            ret[i+1] =(1/(i+1))*pol[i];
+        }
+        return ret;
+    }
 
     PolDiv = function (Zähler, Nenner) {
         if (Nenner == null) {
@@ -57,10 +76,11 @@ class polynomial {
             Rest[j] = Zähler[j]
         return [Quotient, Rest]
     }
+    polinomialDivision = this.PolDiv;
 
     PoltoString = function (Pol) {
         if (Pol == null) {
-            Pol = this;
+            Pol = this.polynomial;
         }
         var str = "";
         for (let i = Pol.length - 1; i >= 0; i--) {
@@ -74,7 +94,7 @@ class polynomial {
                 }
             }
         }
-        return str;
+        return str+""+Pol[0];
     }
     toString = this.PoltoString;
 
@@ -85,7 +105,7 @@ class polynomial {
         for (let i = 0; i < grad; i++) {
             pol.push(math.fraction(jsLib.math.randI(10)));
         }
-        return pol;
+        return new polynomial(pol);
     }
 
     printPolDiv = function (Zähler, Nenner) {
@@ -103,3 +123,5 @@ class polynomial {
         console.log(str);
     }
 }
+jsLib.poly = polynomial;
+jsLib.polynomialsss = polynomial;
