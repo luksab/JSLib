@@ -56,7 +56,7 @@ class Fraq {
 		if (fraqToInvert == null) {
 			fraqToInvert = this;
 		}
-		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator);
+		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator,fraqToInvert.sign);
 	}
 	recipricoal = this.r;
 	inverse = this.r;
@@ -65,14 +65,30 @@ class Fraq {
 	multiply = function (a, b) {//multiplication
 		if (b == null)
 			if (a instanceof Fraq)
-				return this.simplify(new Fraq(a.numerator * this.numerator, a.denominator * this.denominator));
+				return this.simplify(new Fraq(a.numerator * this.numerator, a.denominator * this.denominator,a.sign===this.sign));
 			else
 				return this.toFrac(a).m(this);
 		if (a instanceof Fraq && b instanceof Fraq)
-			return this.simplify(new Fraq(a.numerator * b.numerator, a.denominator * b.denominator));
+			return this.simplify(new Fraq(a.numerator * b.numerator, a.denominator * b.denominator,a.sign===b.sign));
 	}
 	mult = this.multiply;
 	m = this.multiply;
+
+	divide = function (a, b) {
+		if(a == null){
+			a = this.toFrac(a);
+			b = this.toFrac(b);
+		}
+		if (b == null)
+			if (a instanceof Fraq)
+				b = this;
+			else{
+				b = this.toFrac(a);
+				a = this;
+			}
+		return this.multiply(a.r(), b);
+	}
+	d = this.divide;
 
 	add = function (a, b) {//addition
 		if (b == null)
