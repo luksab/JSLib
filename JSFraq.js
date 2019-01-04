@@ -1,11 +1,28 @@
 jsLib.fraq = {};
+
+function randI(max, min) {
+    if (min)
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    else
+        return Math.floor(Math.random() * (max + 1));
+}
+
+function rand(max, min) {
+    return (Math.random() * (max - min)) + min;
+}
 class Fraq {
 	constructor(numerator, denominator, sign) {
+		if(numerator == null){//randomize init
+			numerator = randI(0,100);
+			denominator=randI(1,100);
+			sign = Math.random() >= 0.5;
+		}
 		if (sign == null) this.sign = (numerator * denominator) >= 0;
 		else this.sign = sign;
 		if (numerator % 1 === 0) this.numerator = numerator;
 		if (denominator == null) this.denominator = 1;
 		else this.denominator = denominator;
+		this.simplify();
 	}
 	toFrac = function (x) {
 		for (var i = 0; i < 31; i++) {
@@ -42,11 +59,7 @@ class Fraq {
 
 	r = function (fraqToInvert) {//1/x
 		if (fraqToInvert == null) {
-			var numerator = this.denominator;
-			this.denominator = this.numerator;
-			this.numerator = numerator
-			return this;
-
+			fraqToInvert = this;
 		}
 		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator);
 	}
