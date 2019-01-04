@@ -12,38 +12,30 @@ class Fraq {
 			if ((x * (1 << i)) % 1 == 0) {
 				var numerator = x * (1 << i);
 				var denominator = 1 << i;
-				return new Fraq(numerator,denominator).simplify();
+				return new Fraq(numerator, denominator).simplify();
 			}
 		}
 	}
 	fq = this.toFrac;
 
 	simplify = function (fraqToSimplyfy) {//simplify
-		gcd = function(a,b){
-			if(b===0) return a;
-			return gcd(b,a%b);
+		function gcd(a, b) {
+			if (b === 0) return a;
+			return gcd(b, a % b);
 		}
 		if (fraqToSimplyfy == null) {
 			this.numerator = Math.abs(this.numerator);
 			this.denominator = Math.abs(this.denominator);
-			for (var i = 2; i <= this.denominator; i++) {
-				if (this.numerator % i == 0 && this.denominator % i == 0) {
-					this.numerator /= i;
-					this.denominator /= i;
-					i--;
-				}
-			}
+			var denom = gcd(this.numerator, this.denominator)
+			this.numerator /= denom;
+			this.denominator /= denom;
 			return this;
 		}
 		fraqToSimplyfy.numerator = Math.abs(fraqToSimplyfy.numerator);
 		fraqToSimplyfy.denominator = Math.abs(fraqToSimplyfy.denominator);
-		for (var i = 2; i <= fraqToSimplyfy.denominator; i++) {
-			if (fraqToSimplyfy.numerator % i == 0 && fraqToSimplyfy.denominator % i == 0) {
-				fraqToSimplyfy.numerator /= i;
-				fraqToSimplyfy.denominator /= i;
-				i--;
-			}
-		}
+		var denom = gcd(fraqToSimplyfy.numerator, fraqToSimplyfy.denominator)
+		fraqToSimplyfy.numerator /= denom;
+		fraqToSimplyfy.denominator /= denom;
 		return fraqToSimplyfy;
 	}
 	s = this.simplify;
@@ -56,7 +48,7 @@ class Fraq {
 			return this;
 
 		}
-		return new Fraq(fraqToInvert.denominator,fraqToInvert.numerator);
+		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator);
 	}
 	recipricoal = this.r;
 	inverse = this.r;
@@ -79,15 +71,12 @@ class Fraq {
 
 	string = function (fraqToPrint) {//fraction to string
 		if (fraqToPrint == null) {
-			this.simplify();
-			if (this.denominator == 1)
-				return "" + this.numerator;
-			return "" + this.numerator + "/" + this.denominator;
+			fraqToPrint = this;
 		}
 		this.simplify(fraqToPrint);
 		if (fraqToPrint.denominator == 1)
-			return "" + fraqToPrint.numerator;
-		return "" + fraqToPrint.numerator + "/" + fraqToPrint.denominator;
+			return (fraqToPrint.sign?"":"-") + fraqToPrint.numerator;
+		return (fraqToPrint.sign?"":"-") + fraqToPrint.numerator + "/" + fraqToPrint.denominator;
 	}
 	toString = this.string;
 }
