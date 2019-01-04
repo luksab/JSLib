@@ -1,20 +1,10 @@
 jsLib.fraq = {};
 
-function randI(max, min) {
-    if (min)
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    else
-        return Math.floor(Math.random() * (max + 1));
-}
-
-function rand(max, min) {
-    return (Math.random() * (max - min)) + min;
-}
 class Fraq {
 	constructor(numerator, denominator, sign) {
 		if(numerator == null){//randomize init
-			numerator = randI(0,100);
-			denominator=randI(1,100);
+			numerator = jsLib.math.randI(0,100);
+			denominator=jsLib.math.randI(1,100);
 			sign = Math.random() >= 0.5;
 		}
 		if (sign == null) this.sign = (numerator * denominator) >= 0;
