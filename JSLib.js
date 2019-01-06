@@ -4,6 +4,17 @@ const SV_MAX = 100
 
 var jsLib = window.jsLib = {}
 
+jsLib.setHTML = function (url, element) {
+    function fetch_text(url) {
+        return fetch(url).then((response) => (response.text()));
+    }
+    fetch_text(location.protocol+"//"+location.host+url).then((html) => {
+        element.innerHTML = html;
+    }).catch((error) => {
+        console.warn(error);
+    });
+}
+
 jsLib.LCS = function (s1, s2) {
     var result = [];
     for (var i = 0; i <= s1.length; i++) {
