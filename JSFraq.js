@@ -7,6 +7,16 @@ class Fraq {
 			denominator = jsLib.math.randI(1, 100);
 			sign = Math.random() >= 0.5;
 		}
+		if(numerator%1!==0){
+			for (var i = 0; i < 31; i++) {
+				if ((numerator * (1 << i)) % 1 == 0) {
+					sign = numerator >= 0;
+					numerator = numerator * (1 << i);
+					denominator = 1 << i;
+					this.simplify();
+				}
+			}
+		}
 		if (sign == null)
 			if (denominator == null) this.sign = numerator >= 0;
 			else this.sign = (numerator * denominator) >= 0;
@@ -29,7 +39,7 @@ class Fraq {
 	toFrac(x) {
 		for (var i = 0; i < 31; i++) {
 			if ((x * (1 << i)) % 1 == 0) {
-				var sign = numerator >= 0;
+				var sign = x >= 0;
 				var numerator = x * (1 << i);
 				var denominator = 1 << i;
 				return new Fraq(numerator, denominator, sign).simplify();
