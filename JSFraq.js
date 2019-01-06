@@ -2,7 +2,7 @@ jsLib.fraq = {};
 
 class Fraq {
 	constructor(numerator, denominator, sign) {
-		if (numerator == null) {//randomize init
+		if (numerator == null) { //randomize init
 			numerator = jsLib.math.randI(0, 100);
 			denominator = jsLib.math.randI(1, 100);
 			sign = Math.random() >= 0.5;
@@ -15,8 +15,18 @@ class Fraq {
 		if (denominator == null) this.denominator = 1;
 		else this.denominator = denominator;
 		this.simplify();
+		this.toString = this.string;
+		this.fq = this.toFrac;
+		this.s = this.simplify;
+		this.recipricoal = this.r;
+		this.inverse = this.r;
+		this.i = this.r;
+		this.mult = this.multiply;
+		this.m = this.multiply;
+		this.d = this.divide;
+		this.a = this.add;
 	}
-	toFrac = function (x) {
+	toFrac(x) {
 		for (var i = 0; i < 31; i++) {
 			if ((x * (1 << i)) % 1 == 0) {
 				var sign = numerator >= 0;
@@ -26,9 +36,8 @@ class Fraq {
 			}
 		}
 	}
-	fq = this.toFrac;
 
-	simplify = function (fraqToSimplyfy) {//simplify
+	simplify(fraqToSimplyfy) { //simplify
 		function gcd(a, b) {
 			if (!(a % 1 === 0 && b % 1 === 0))
 				return 1;
@@ -50,54 +59,47 @@ class Fraq {
 		fraqToSimplyfy.denominator /= denom;
 		return fraqToSimplyfy;
 	}
-	s = this.simplify;
 
-	r = function (fraqToInvert) {//1/x
+	r(fraqToInvert) { //1/x
 		if (fraqToInvert == null) {
 			fraqToInvert = this;
 		}
-		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator,fraqToInvert.sign);
+		return new Fraq(fraqToInvert.denominator, fraqToInvert.numerator, fraqToInvert.sign);
 	}
-	recipricoal = this.r;
-	inverse = this.r;
-	i = this.r;
 
-	multiply = function (a, b) {//multiplication
+	multiply(a, b) { //multiplication
 		if (b == null)
 			if (a instanceof Fraq)
-				return this.simplify(new Fraq(a.numerator * this.numerator, a.denominator * this.denominator,a.sign===this.sign));
+				return this.simplify(new Fraq(a.numerator * this.numerator, a.denominator * this.denominator, a.sign === this.sign));
 			else
 				return this.toFrac(a).m(this);
 		if (a instanceof Fraq && b instanceof Fraq)
-			return this.simplify(new Fraq(a.numerator * b.numerator, a.denominator * b.denominator,a.sign===b.sign));
+			return this.simplify(new Fraq(a.numerator * b.numerator, a.denominator * b.denominator, a.sign === b.sign));
 	}
-	mult = this.multiply;
-	m = this.multiply;
 
-	divide = function (a, b) {
-		if(a == null){
+	divide(a, b) {
+		if (a == null) {
 			a = this.toFrac(a);
 			b = this.toFrac(b);
 		}
 		if (b == null)
 			if (a instanceof Fraq)
 				b = this;
-			else{
+			else {
 				b = this.toFrac(a);
 				a = this;
 			}
 		return this.multiply(a.r(), b);
 	}
-	d = this.divide;
 
-	add = function (a, b) {//addition
+	add(a, b) { //addition
 		if (b == null)
 			return this.simplify(new Fraq(a.numerator * this.denominator + this.numerator * a.denominator, a.denominator * this.denominator));
 		return this.simplify(new Fraq(a.numerator * b.denominator + b.numerator * a.denominator, a.denominator * b.denominator));
 	}
-	a = this.add;
 
-	string = function (fraqToPrint) {//fraction to string
+
+	string(fraqToPrint) { //fraction to string
 		if (fraqToPrint == null) {
 			fraqToPrint = this;
 		}
@@ -106,7 +108,5 @@ class Fraq {
 			return (fraqToPrint.sign ? "" : "-") + fraqToPrint.numerator;
 		return (fraqToPrint.sign ? "" : "-") + fraqToPrint.numerator + "/" + fraqToPrint.denominator;
 	}
-	toString = this.string;
 }
 jsLib.fraq = Fraq;
-

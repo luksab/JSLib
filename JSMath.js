@@ -17,8 +17,12 @@ jsLib.math.rand = function (max, min) {
 class polynomial {
     constructor(polynomial) {
         this.polynomial = polynomial;
+        this.normalPolinomialDivision = this.PolDivNormal;
+        this.polinomialDivision = this.PolDiv;
+        this.toString = this.PoltoString;
     }
-    PolDivNormal = function (Zähler, Nenner) {
+
+    PolDivNormal (Zähler, Nenner) {
         if (Nenner == null) {
             Nenner = Zähler;
             Zähler = this;
@@ -37,9 +41,9 @@ class polynomial {
             Rest[j] = Zähler[j]
         return [Quotient, Rest];
     }
-    normalPolinomialDivision = this.PolDivNormal;
+    
 
-    integrate = function (pol) {
+    integrate (pol) {
         if (pol == null)
             pol = this.polynomial;
         else if (pol.polynomial == null) {
@@ -57,7 +61,7 @@ class polynomial {
         return ret;
     }
 
-    PolDiv = function (Zähler, Nenner) {
+    PolDiv (Zähler, Nenner) {
         if (Nenner == null) {
             Nenner = Zähler;
             Zähler = this;
@@ -76,9 +80,8 @@ class polynomial {
             Rest[j] = Zähler[j]
         return [Quotient, Rest]
     }
-    polinomialDivision = this.PolDiv;
 
-    PoltoString = function (Pol) {
+    PoltoString (Pol) {
         if (Pol == null) {
             Pol = this.polynomial;
         }
@@ -96,9 +99,8 @@ class polynomial {
         }
         return str+""+Pol[0];
     }
-    toString = this.PoltoString;
 
-    randPol = function (maxGrad) {
+    randPol (maxGrad) {
         var grad = jsLib.math.randI(maxGrad, 1);
         if (grad < 1) grad = 1;
         var pol = new Array();
@@ -108,7 +110,7 @@ class polynomial {
         return new polynomial(pol);
     }
 
-    printPolDiv = function (Zähler, Nenner) {
+    printPolDiv (Zähler, Nenner) {
         var res = PolDiv(Zähler, Nenner);
         var Quotient = res[0];
         var Rest = res[1];
